@@ -1,49 +1,26 @@
-# TinyTapeout project information
-# NOTE: field names have shifted slightly between shuttle template
-# versions (tt06 -> tt10 -> ttsky). Diff this against the info.yaml in
-# whatever *-verilog-template you actually cloned before submitting --
-# see the README for details.
-
+# Tiny Tapeout project information
 project:
-  wokwi_id: 0
+  title:        "Reconfigurable mixed-precision 2x2 systolic MAC array"
+  author:       "Dilip C"
+  discord:      ""
+  description:  "A 2x2 weight-stationary systolic multiply-accumulate array with 4-bit/2-bit configurable precision and zero-operand skip."
+  language:     "Verilog"
+  clock_hz:     10000000
+
+  # How many tiles your design occupies? A single tile is about 167x108 uM.
+  tiles: "1x1"
+
+  # Your top module name must start with "tt_um_". Make it unique by including your github username:
+  top_module:  "tt_um_dilip951_cpu_systolic_array"
+
+  # List your project's source files here.
   source_files:
     - "project.v"
     - "systolic_pe.v"
-  top_module: "tt_um_yourusername_systolic_array"
 
-documentation:
-  author:       "Your Name"
-  title:        "Reconfigurable mixed-precision 2x2 systolic MAC array"
-  language:     "Verilog"
-  description: >
-    A 2x2 weight-stationary systolic multiply-accumulate array with
-    4-bit/2-bit configurable precision and zero-operand skip.
-  how_it_works: >
-    Two 4-bit activation streams (one per row) enter the array from the
-    west and shift eastward through registered processing elements every
-    clock cycle. Weights are preloaded once (weight-stationary) via a
-    4-pulse load sequence, one PE per pulse. Each PE multiplies its local
-    activation and weight -- optionally masked down to 2-bit precision --
-    adds the partial sum arriving from the north, and forwards the result
-    south. When the activation is zero, the multiplier operands are
-    forced to a constant instead of switching on a known-zero product
-    (operand-isolation zero-skip). Column 0 and column 1 partial sums are
-    streamed out of uo_out on alternating clock cycles.
-  how_to_test: >
-    Pulse weight_load (uio_in[4]) four times with the desired value on
-    weight_in (uio_in[3:0]) to load PE(0,0), PE(0,1), PE(1,0), PE(1,1) in
-    that order. Drive act_row0 on ui_in[3:0] and act_row1 on ui_in[7:4].
-    Column 0 / column 1 partial sums alternate on uo_out[7:0], flagged by
-    uio_out[7] (col_id) and uio_out[6] (valid_out, high once the 4-cycle
-    pipeline has filled).
-  external_hw: "None -- purely digital, no external hardware required."
-  discord:      ""
-  doc_link:     ""
-  clock_hz:     10000000
-  picture:      ""
-  tiles:        "1x1"
-
+# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
+  # Inputs
   ui[0]: "act_row0[0]"
   ui[1]: "act_row0[1]"
   ui[2]: "act_row0[2]"
@@ -53,6 +30,7 @@ pinout:
   ui[6]: "act_row1[2]"
   ui[7]: "act_row1[3]"
 
+  # Outputs
   uo[0]: "psum_out[0]"
   uo[1]: "psum_out[1]"
   uo[2]: "psum_out[2]"
@@ -62,6 +40,7 @@ pinout:
   uo[6]: "psum_out[6]"
   uo[7]: "psum_out[7]"
 
+  # Bidirectional pins
   uio[0]: "weight_in[0]"
   uio[1]: "weight_in[1]"
   uio[2]: "weight_in[2]"
@@ -71,4 +50,5 @@ pinout:
   uio[6]: "valid_out"
   uio[7]: "col_id"
 
-analog_pins: []
+# Do not change!
+yaml_version: 6
