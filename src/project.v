@@ -25,7 +25,7 @@
 
 `default_nettype none
 
-module tt_um_yourusername_systolic_array (
+module tt_um_dilip951_cpu_systolic_array (
     input  wire [7:0] ui_in,    // dedicated inputs
     output wire [7:0] uo_out,   // dedicated outputs
     input  wire [7:0] uio_in,   // IOs: input path
