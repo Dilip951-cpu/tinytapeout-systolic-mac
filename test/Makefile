@@ -13,7 +13,7 @@ else
     $(error This testbench only supports Verilog)
 endif
 
-TOPLEVEL = tt_um_yourusername_systolic_array
+TOPLEVEL = tt_um_dilip951_cpu_systolic_array
 MODULE = test
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
