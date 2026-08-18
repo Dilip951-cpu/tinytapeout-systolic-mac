@@ -1,4 +1,8 @@
 /*
+ * Copyright (c) 2026 Dilip C
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/*
  * Reconfigurable mixed-precision 2x2 systolic MAC array for Tiny Tapeout.
  *
  * - 2x2 weight-stationary array of systolic_pe processing elements
