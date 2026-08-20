@@ -1,7 +1,7 @@
 # Tiny Tapeout project information
 project:
   title:        "Reconfigurable mixed-precision 2x2 systolic MAC array"
-  author:       "Dilip C"
+  author:       "Dilip C, Aneesh, Shylashree N, RV College of Engineering"
   discord:      ""
   description:  "A 2x2 weight-stationary systolic multiply-accumulate array with 4-bit/2-bit configurable precision and zero-operand skip."
   language:     "Verilog"
