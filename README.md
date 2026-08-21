@@ -1,42 +1,35 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+Reconfigurable Mixed-Precision 2×2 Weight-Stationary Systolic MAC Array
 
-# Tiny Tapeout Verilog Project   Template
+Tiny Tapeout submission, SkyWater 130nm, TTSKY26c shuttle
 
-- [Read the documentation for project](docs/info.md)
+Read the full project documentation
+Verification summary and report
+What is this?
 
-## What is Tiny Tapeout?
+This project implements a 2×2 weight-stationary systolic array of multiply-accumulate (MAC) processing elements that can switch between two numeric precisions at runtime.
+
+Each processing element holds a stationary weight and streams activations through the array, accumulating partial sums as data flows from PE to PE — the classic systolic dataflow used in most modern NPU/TPU-style accelerators, scaled down to fit a single TinyTapeout tile.
+
+Rather than instantiating separate multipliers for 4-bit and 2-bit operation, precision switching is implemented through a shared masked multiplier: the same multiplier hardware is reused for both modes, with input masking gating the unused bits when running the lower precision. A zero-operand skip mechanism gates the accumulate path whenever an operand is zero, avoiding unnecessary switching activity on those cycles.
+
+Research contribution: 2×2 systolic arrays have appeared before on TinyTapeout, but this specific combination — runtime-reconfigurable mixed precision via a shared masked multiplier, weight-stationary dataflow, and zero-operand skip gating, all within a single fixed silicon budget — has not been replicated elsewhere in the shuttle. A feature-comparison table against prior systolic-array submissions is included in the documentation.
+
+Design summary
+Top module: tt_um_dilip951_cpu_systolic_array
+Real device count: 608 standard cells (post place-and-route, sky130_fd_sc_hd), 62 flip-flops
+Die area: ~117 × 128 µm
+PDK: sky130A (fixed by the TTSKY26c shuttle)
+Verified: DRC, LVS, and antenna checks clean via LibreLane 3.0.5 through GitHub Actions CI (gds, precheck 15/15, gl_test, viewer all passing), independently cross-checked with an OpenLane2 Colab flow — matching flip-flop count, die area, and a clean LVS result
+Verification: cocotb testbench, both functional tests passing
+What is Tiny Tapeout?
 
 Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
 
 To learn more and get started, visit https://tinytapeout.com.
 
-## Set up your Verilog project
-
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
-
-The GitHub action will automatically build the ASIC files using [LibreLane](https://www.zerotoasiccourse.com/terminology/librelane/).
-
-## Enable GitHub actions to build the results page
-
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
-
-## Resources
-
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
-
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
+Resources
+FAQ
+Digital design lessons
+Learn how semiconductors work
+Join the community
+Build your design locally
